@@ -25,7 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TipCalculatorScreen() {
+public fun  TipCalculatorScreen() {
     var billAmount by remember { mutableStateOf("") }
     var tipPercentage by remember { mutableStateOf(15) }
     var roundUp by remember { mutableStateOf(false) }
