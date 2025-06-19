@@ -23,9 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.testTag // 👈 Import necesario para testTag
 
 @Composable
-public fun  TipCalculatorScreen() {
+public fun TipCalculatorScreen() {
     var billAmount by remember { mutableStateOf("") }
     var tipPercentage by remember { mutableStateOf(15) }
     var roundUp by remember { mutableStateOf(false) }
@@ -53,7 +54,9 @@ public fun  TipCalculatorScreen() {
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("amountInput") // 🏷️ Para test
         )
 
         Text("Porcentaje de propina: $tipPercentage%")
@@ -62,11 +65,13 @@ public fun  TipCalculatorScreen() {
             onValueChange = { tipPercentage = it.toInt() },
             valueRange = 0f..50f,
             steps = 49,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("tipSlider") // 🏷️ Para test si luego lo usas
         )
 
         Text("Número de personas: $numberOfPeople")
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
@@ -86,7 +91,8 @@ public fun  TipCalculatorScreen() {
         ) {
             Checkbox(
                 checked = roundUp,
-                onCheckedChange = { roundUp = it }
+                onCheckedChange = { roundUp = it },
+                modifier = Modifier.testTag("roundUpSwitch") // 🏷️ Para test
             )
             Text("Redondear propina", modifier = Modifier.padding(start = 8.dp))
         }
@@ -95,11 +101,13 @@ public fun  TipCalculatorScreen() {
 
         Text(
             text = "Propina: $${"%.2f".format(tip)}",
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.testTag("tipResult") // 🏷️ Para test
         )
         Text(
             text = "Total por persona: $${"%.2f".format(totalPerPerson)}",
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.testTag("totalPerPerson") // 🏷️ Opcional para validación extra
         )
     }
 }
